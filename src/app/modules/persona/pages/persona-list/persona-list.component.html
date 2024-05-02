@@ -1,0 +1,192 @@
+<app-menu-izquierda></app-menu-izquierda>
+
+<section class="main_content dashboard_part large_header_bg">
+  <app-header></app-header>
+
+  <div class="main_content_iner">
+    <div class="container-fluid p-0">
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page_title_box d-flex flex-wrap align-items-center justify-content-between"
+          >
+            <div class="page_title_left d-flex align-items-center">
+              <h3 class="f_s_25 f_w_700 dark_text mr_30">
+                {{ nombreEntidadPlural }}
+                ({{ totalEntidades }})
+              </h3>
+            </div>
+            <app-date-time-info></app-date-time-info>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="white_card card_height_100 mb_30">
+            <div class="white_card_body">
+              <div class="QA_section">
+                <div class="white_box_tittle list_header pt-3">
+                  <div class="add_button ms-1">
+                    <a
+                      routerLink="/persona/new"
+                      [title]="'Nuevo ' + nombreEntidad"
+                      class="btn_1"
+                      >Nuevo</a
+                    >
+                  </div>
+                  <form [formGroup]="formBuscar">
+                    <div class="box_right d-flex lms_block">
+                      <div class="serach_field_2">
+                        <div class="search_inner">
+                          <div class="search_field ms-1">
+                            <input
+                              formControlName="CampoBuscar"
+                              id="campoBuscar"
+                              name="campoBuscar"
+                              type="text"
+                              placeholder="Ingrese un apellido"
+                            />
+                            <div
+                              *ngIf="
+                                formBuscar
+                                  .get('CampoBuscar')!
+                                  .hasError('required') &&
+                                formBuscar.get('CampoBuscar')!.touched
+                              "
+                            >
+                              Ingrese un texto
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="add_button ms-1">
+                        <button
+                          [title]="'Búscar por nombre'"
+                          class="btn_1"
+                          (click)="buscar()"
+                        >
+                          Buscar
+                        </button>
+                      </div>
+                      <div class="add_button ms-1">
+                        <button
+                          [title]="'Cancelar búsqueda'"
+                          class="btn_1"
+                          (click)="cancelar()"
+                        >
+                          <i class="far fa-window-close"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="QA_table mb_30">
+                  <div
+                    class="table-responsive table"
+                    id="tabla-listado-entidades"
+                  >
+                    <ngx-skeleton-loader
+                      *ngIf="cargandoListado"
+                      [count]="4"
+                    ></ngx-skeleton-loader>
+                    <table *ngIf="!cargandoListado" class="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Id</th>
+                          <th>Nombre</th>
+                          <th>Provincia</th>
+                          <th>Dni</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let aEntidad of _personasService.listado()
+                              | paginate : { itemsPerPage: 5, currentPage: p }
+                          "
+                        >
+                          <td>
+                            <!-- {{aEntidad | json}} -->
+                            <input
+                              class="mt-2"
+                              id="chk-{{ aEntidad.id }}"
+                              (click)="arrayChecked(aEntidad.id)"
+                              type="checkbox"
+                              [checked]="aEntidad.Checked"
+                            />
+                          </td>
+                          <th scope="row">
+                            <a href="#" class="question_content"
+                              >{{ aEntidad.id }}
+                            </a>
+                          </th>
+                          <td>{{ aEntidad.apellido }},{{ aEntidad.nombre }}</td>
+                          <td>{{ aEntidad.provincia?.nombre }}</td>
+                          <td>{{ aEntidad.dni }}</td>
+
+                          <td>
+                            <div class="action_btns d-flex">
+                              <a
+                                href="#"
+                                [routerLink]="['/persona/edit', aEntidad.id]"
+                                class="action_btn mr_10"
+                              >
+                                <i class="far fa-edit"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr class="text-center" *ngIf="_personasService.listado().length == 0">
+                          <td colspan="5">No se encontraron resultados</td>
+                        </tr>
+
+                        <tr class="text-left" *ngIf="_personasService.listado.length > -1">
+                          <td colspan="10">
+                            Para los elementos seleccionados:
+                            <span class="mr-2 pr-2">
+                              <a
+                                (click)="abrirModalConfirm('eliminar')"
+                                style="cursor: pointer"
+                              >
+                                <i
+                                  class="fas fa-trash-alt eliminarBtn"
+                                  (click)="abrirModalConfirm('eliminar')"
+                                ></i>
+                                Eliminar
+                              </a>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <pagination-controls
+                  previousLabel="Ant."
+                  nextLabel="Sig."
+                  (pageChange)="p = $event"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</section>
+
+<div id="back-top" style="display: none">
+  <a title="Go to Top" href="#">
+    <i class="ti-angle-up"></i>
+  </a>
+</div>

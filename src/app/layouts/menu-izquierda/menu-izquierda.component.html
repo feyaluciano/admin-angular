@@ -1,0 +1,31 @@
+<nav class="sidebar">
+  <div class="logo d-flex justify-content-between">
+    <a class="large_logo" href="index.html"><img src="./assets/img/logo.png" alt></a>    
+    <div class="sidebar_close_icon d-lg-none">
+      <i class="ti-close"></i>
+    </div>
+  </div>
+  <ul id="sidebar_menu">
+    <li>
+      <a routerLink="/panel/start" aria-expanded="false">
+        <div class="nav_icon_small">
+          <img src="./assets/img/menu-icon/dashboard.svg" alt>
+        </div>
+        <div class="nav_title">
+          <span>Inicio</span>
+        </div>
+      </a>
+    </li>
+    <li >
+      <a routerLink="/persona/lista" aria-expanded="false">
+        <div class="nav_icon_small">
+          <img src="./assets/img/menu-icon/10.svg" alt>
+        </div>
+        <div class="nav_title">
+          <span>Personas</span>
+          ({{totalEntidades}})
+        </div>
+      </a>
+    </li>                     
+  </ul>
+</nav>

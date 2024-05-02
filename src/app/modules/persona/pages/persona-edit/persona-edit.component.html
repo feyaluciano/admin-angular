@@ -1,0 +1,129 @@
+<app-menu-izquierda></app-menu-izquierda>
+
+<section class="main_content dashboard_part large_header_bg">
+  <app-header></app-header>
+
+  <div class="main_content_iner">
+    <div class="container-fluid p-0">
+
+      <div class="row">
+        <div class="col-12">
+          <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
+            <div class="page_title_left d-flex align-items-center">
+              <h3 class="f_s_25 f_w_700 dark_text mr_30">
+                Persona
+              </h3>              
+              <ol class="breadcrumb page_bradcam mb-0">
+                <li class="breadcrumb-item">
+                  <a href="#" (click)="volverAtras($event)">Volver</a>
+                </li>
+              </ol>
+            </div>
+            <app-date-time-info></app-date-time-info>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row ">
+        <div class="col-lg-12">
+        <div *ngIf="mostrarCargando" class="text-center">
+          <div class="loader--ring Ring_1 mb_30">
+            <div></div>
+            <div></div>                     
+            </div>
+        </div>              
+      </div>
+
+
+      
+      
+
+      <form [formGroup]="formEntidad">
+       
+        <div class="col-lg-12">
+          <div class="white_card card_height_100 mb_30">
+            <!-- <div class="white_card_header">
+              <div class="box_header m-0">
+                <div class="main-title">
+                  <h3 class="m-0">Datos de la Solicitud</h3>
+                </div>
+              </div>
+            </div> -->
+            <div class="white_card_body">
+              <div class="card-body">
+                                                  
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="nombrePersona">Nombre</label>
+                    <input formControlName="nombre" id="nombre" name="nombre" type="text" class="form-control" />
+                    <div appMsgErrorForm mensajeError="Ingrese el nombre" [valido]="tieneErrorCampoFormulario('nombre','required')" class="form-text"></div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="apellidoPersona">Apellido</label>
+                    <input formControlName="apellido" id="apellido" name="apellido" type="text" class="form-control" />
+                    <div appMsgErrorForm mensajeError="Ingrese el apellido" [valido]="tieneErrorCampoFormulario('apellido','required')" class="form-text"></div>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="dni">DNI</label>
+                    <input  formControlName="dni" id="dni" name="dni" type="text" class="form-control" />
+                    <div appMsgErrorForm mensajeError="Ingrese el número de DNI" [valido]="tieneErrorCampoFormulario('dni','required')" class="form-text"></div>
+                    <div appMsgErrorForm mensajeError="Ingrese el número de DNI de 7 u 8 digitos" [valido]="tieneErrorCampoFormulario('dni','pattern')" class="form-text"></div>
+                  </div>
+                 
+                    <div class="col-md-6">
+                      <label class="form-label" for="Teléfono">Teléfono</label>
+                      <input formControlName="telefono" id="telefono" name="telefono" type="text" value="" class="form-control" />
+                      <div appMsgErrorForm mensajeError="Ingrese teléfono válido" [valido]="tieneErrorCampoFormulario('telefono','pattern')" class="form-text"></div>
+                      <div appMsgErrorForm mensajeError="Ingrese un telefono" [valido]="tieneErrorCampoFormulario('telefono','required')" class="form-text"></div>
+                  </div>                    
+                  
+                </div>
+                            
+                                                            
+                 <div class="row mb-3">
+                  <div class="col-lg-6">
+                      <div class="common_input mb_15">  
+                        <label class="form-label" for="Provincia">Provincia</label>
+                        <ng-select class="" bindLabel="provincia" 
+                        appendTo="body" formControlName="provincia"
+                        [searchable]="true" [clearable]="true">
+                          <ng-option *ngFor="let item of listadoProvincias" [value]="item">{{item.nombre}}</ng-option>
+                       </ng-select>                                              
+                        <div appMsgErrorForm mensajeError="Seleccione una provincia" 
+                       [valido]="tieneErrorCampoFormulario('provincia','required')" class="form-text"></div>
+                      </div>
+                    </div>           
+                </div> 
+
+                                     
+                <button [disabled]="enviandoPersona" type="button" (click)="guardarEntidad()" class="btn btn-primary">Guardar Persona</button>
+                <div >
+                  <img  *ngIf="enviandoPersona"  width="30px" src="./assets/img/loading.gif">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      
+       
+      </div>
+
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</section>
